@@ -1,0 +1,508 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Unreal Engine 4 Pixel Streaming on AWS Solution",
+  "Parameters": {
+    "KeyPairName": {
+      "Description": "Keypair associated with the EC2 instance",
+      "Type": "AWS::EC2::KeyPair::KeyName",
+      "MinLength": "1",
+      "ConstraintDescription": "Must provide a keypair to be associated with the EC2 instance"
+    },
+    "InstanceType": {
+      "Description": "EC2 instance type",
+      "Type": "String",
+      "Default": "g4dn.4xlarge",
+      "AllowedValues": [
+        "g3s.xlarge",
+        "g3.4xlarge",
+        "g3.8xlarge",
+        "g3.16xlarge",
+        "g4dn.xlarge",
+        "g4dn.2xlarge",
+        "g4dn.4xlarge",
+        "g4dn.8xlarge",
+        "g4dn.12xlarge",
+        "g4dn.16xlarge"
+      ]
+    },
+    "DiskSize" : {
+        "Description": "Disk size in GB",
+        "Type": "Number",
+        "Default": "30",
+        "MinValue": "30"
+    },
+    "UserPasswd": {
+      "Description": "Password for the \"Administrator\" user on Windows instances. The default password is Ch4ng3M3! ",
+      "Default": "Ch4ng3M3!",
+      "MinLength": "8",
+      "Type": "String",
+      "AllowedPattern": "^((?=.*[a-z])(?=.*[A-Z])(?=.*[\\d])|(?=.*[a-z])(?=.*[A-Z])(?=.*[\\W_])|(?=.*[a-z])(?=.*[\\d])(?=.*[\\W_])|(?=.*[A-Z])(?=.*[\\d])(?=.*[\\W_])).+$",
+      "ConstraintDescription": "Password must contain at least one element from three of the following sets: lowercase letters, uppercase letters, base 10 digits, non-alphanumeric characters",
+      "NoEcho" : "true"
+    },
+    "OsVersion": {
+      "Type": "String",
+      "AllowedValues": [
+        "WindowsServer2012R2",
+        "WindowsServer2016",
+        "WindowsServer2019"
+      ],
+      "Default": "WindowsServer2019"
+    },
+    "PixelStreamerBuildLocation": {
+      "Type": "String",
+      "Description": "Location of zip file of UE4 Pixel Streaming exported project. Format of https://bucket-name.region.amazonaws.com/Path/UE4PixelStreamingProject.zip"
+    },
+    "PixelStreamerBootstrapLocation": {
+      "Type": "String",
+      "Description": "Location of bootstrap Powershell script. Format of https://bucket-name.region.amazonaws.com/Path/UE4PixelStreamingProject.zip"
+    }
+  },
+  "Mappings": {
+    "RegionMap": {
+      "ap-northeast-1": {
+        "WindowsServer2012R2": "ami-0049f6c13e0018bcc",
+        "WindowsServer2016": "ami-09b4882469bcc17c5",
+        "WindowsServer2019": "ami-0f1d9d91c16265769"
+      },
+      "ap-northeast-2": {
+        "WindowsServer2012R2": "ami-04c2f27f6ff655845",
+        "WindowsServer2016": "ami-0af26a26ce589d298",
+        "WindowsServer2019": "ami-049e67b9661b9ee3e"
+      },
+      "ap-northeast-3": {
+        "WindowsServer2012R2": "ami-0612f02c7dc63aae4",
+        "WindowsServer2016": "ami-052efaae156fe98ae",
+        "WindowsServer2019": "ami-0f9212217dd0b0c34"
+      },
+      "ap-south-1": {
+        "WindowsServer2012R2": "ami-0bb17546535bce67b",
+        "WindowsServer2016": "ami-0f550bdb648e94c38",
+        "WindowsServer2019": "ami-03dbf9550d4620230"
+      },
+      "ap-southeast-1": {
+        "WindowsServer2012R2": "ami-0e4c93774ba45aea5",
+        "WindowsServer2016": "ami-04ad4f8adb6cd9ae2",
+        "WindowsServer2019": "ami-003ad59a0b2b3c98f"
+      },
+      "ap-southeast-2": {
+        "WindowsServer2012R2": "ami-0e2f2c90808c5084f",
+        "WindowsServer2016": "ami-0a1c4ca298cf1cfd0",
+        "WindowsServer2019": "ami-09a17b63e7283d6a2"
+      },
+      "ca-central-1": {
+        "WindowsServer2012R2": "ami-07d6ae91b661c8f70",
+        "WindowsServer2016": "ami-05f72a4e2c483b7dd",
+        "WindowsServer2019": "ami-0df364e027762ec43"
+      },
+      "eu-central-1": {
+        "WindowsServer2012R2": "ami-01c3be3076b02d409",
+        "WindowsServer2016": "ami-041b3f8816c94b62c",
+        "WindowsServer2019": "ami-0075ac87f3bb991bc"
+      },
+      "eu-north-1": {
+        "WindowsServer2012R2": "ami-0f819ff9b904b1de8",
+        "WindowsServer2016": "ami-0a6c0cf9712905e09",
+        "WindowsServer2019": "ami-092287cf5a11bfb9e"
+      },
+      "eu-west-1": {
+        "WindowsServer2012R2": "ami-09c2b6f3a7d742313",
+        "WindowsServer2016": "ami-0d30f8acc8b87dfd7",
+        "WindowsServer2019": "ami-0753ddff1a67fca78"
+      },
+      "eu-west-2": {
+        "WindowsServer2012R2": "ami-0e7919a7c2fd2b867",
+        "WindowsServer2016": "ami-02d88d373bf2a487a",
+        "WindowsServer2019": "ami-0c80f4021417f8488"
+      },
+      "eu-west-3": {
+        "WindowsServer2012R2": "ami-070a60be1e287195d",
+        "WindowsServer2016": "ami-035886e9921128d1a",
+        "WindowsServer2019": "ami-0ace5ff23b1a4725d"
+      },
+      "sa-east-1": {
+        "WindowsServer2012R2": "ami-0b01cd27ee0c2874f",
+        "WindowsServer2016": "ami-06752a5f4a306b265",
+        "WindowsServer2019": "ami-066d7f29fb6c7b3bb"
+      },
+      "us-east-1": {
+        "WindowsServer2012R2": "ami-0bdaf7dfb4bc90153",
+        "WindowsServer2016": "ami-081afb283b98a8548",
+        "WindowsServer2019": "ami-0f38562b9d4de0dfe"
+      },
+      "us-east-2": {
+        "WindowsServer2012R2": "ami-0b50cc81076956cee",
+        "WindowsServer2016": "ami-0587770c46124f677",
+        "WindowsServer2019": "ami-066a1a3fa81bfbd00"
+      },
+      "us-west-1": {
+        "WindowsServer2012R2": "ami-06c9b9f6410bf8db9",
+        "WindowsServer2016": "ami-022b8726b80fd1330",
+        "WindowsServer2019": "ami-0d1b8b740ddc3b78d"
+      },
+      "us-west-2": {
+        "WindowsServer2012R2": "ami-015c3bb7a8dbda049",
+        "WindowsServer2016": "ami-0fb16d6843cf910d7",
+        "WindowsServer2019": "ami-09fa39d0afa9024db"
+      }
+    },
+    "VersionMap": {
+      "firefox": {
+        "default": "Firefox_Setup_57.0.exe"
+      }
+    }
+  },
+  "Conditions": {
+      "CreateWindows" : { "Fn::Or" : [ { "Fn::Equals" : [ {"Ref": "OsVersion"}, "WindowsServer2012R2" ] }, { "Fn::Equals" : [ {"Ref": "OsVersion"}, "WindowsServer2016" ] }, { "Fn::Equals" : [ {"Ref": "OsVersion"}, "WindowsServer2019" ] } ] }
+  },
+  "Resources": {
+    "WindowsInstance": {
+      "Type": "AWS::EC2::Instance",
+      "Condition" : "CreateWindows",
+      "Properties": {
+        "InstanceType": {
+          "Ref": "InstanceType"
+        },
+        "IamInstanceProfile": {
+          "Ref": "RootInstanceProfile"
+        },
+        "ImageId": {
+          "Fn::FindInMap": [
+                "RegionMap",
+            {
+                "Ref": "AWS::Region"
+            },
+            {
+                "Ref": "OsVersion"
+            }
+          ]
+        },
+        "SecurityGroupIds": [{
+          "Ref": "DCVSecurityGroup"
+        }],
+        "Tags" : [{ 
+          "Key" : "RemoteVisualization",
+          "Value" : "DCV-preview"
+        },
+        { 
+          "Key" : "Name",
+          "Value" : { "Ref": "AWS::StackName" }
+        },
+        { 
+          "Key" : "DCV",
+          "Value" : "DCV"
+        }],
+        "KeyName": {
+          "Ref": "KeyPairName"
+        },
+        "BlockDeviceMappings" : [
+            {
+                "DeviceName" : "/dev/sda1",
+                "Ebs" : {
+                    "VolumeSize" : {
+                        "Ref" : "DiskSize"
+                    },
+                    "VolumeType" : "gp2"
+                }
+            }
+        ],
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Join": [
+              "",
+              [
+                "<script>\n",
+                "cfn-init.exe -v ",
+                " -c initialize ",
+                " -r WindowsInstance ",
+                " --region ", { "Ref": "AWS::Region" },
+                " -s ", { "Ref": "AWS::StackName" },
+                "\n",
+                "</script>\n"
+              ]
+            ]
+          }
+        }
+      },
+      "Metadata": {
+        "AWS::CloudFormation::Authentication": {
+          "S3AccessCreds": {
+            "type": "S3",
+            "roleName": {
+              "Ref": "RootRole"
+            }
+          }
+        },
+        "AWS::CloudFormation::Init": {
+          "configSets": {
+            "initialize": [
+              "download",
+              "install",
+              "restart"
+            ]
+          },
+          "download": {
+            "files": {
+              "C:\\PixelStreamer\\Downloads\\UE4-Pixel-Streamer-Bootstrap.ps1": {
+                "source": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      { "Ref": "PixelStreamerBootstrapLocation" }
+                    ]
+                  ]
+                },
+                "authentication": "S3AccessCreds"
+              },              
+              "C:\\PixelStreamer\\Downloads\\PixelStreamerProject.zip": {
+                "source": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      { "Ref": "PixelStreamerBuildLocation" }
+                    ]
+                  ]
+                },
+                "authentication": "S3AccessCreds"
+              },              
+              "C:\\dcv-install\\install.ps1": {
+                "source": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "https://s3-eu-west-1.amazonaws.com/nice-dcv-cfn/dcv-server-install.ps1"
+                    ]
+                  ]
+                },
+                "authentication": "S3AccessCreds"
+              },
+              "C:\\dcv-install\\conf.ps1": {
+                "content": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "$dcvBucket = \"nice-dcv-cfn\"\r\n",
+                      "$depBucket = \"nice-dcv-cfn\"\r\n",
+                      "$devConPackage = \"DevCon.zip\"\r\n",
+                      "$dcvPackageName = \"nice-dcv-server-x64-Release-2020.0-latest.msi\"\r\n",
+                      "$firefoxPackage = \"", { "Fn::FindInMap": [ "VersionMap", "firefox", "default" ] }, "\"\r\n",
+                      "$userName = \"Administrator\"\r\n",
+                      "$userPasswd = \"", { "Ref": "UserPasswd" }, "\"\r\n",
+                      "$logLevel = \"info\"\r\n",
+                      "$waitHandle = \"", { "Ref": "InstanceWaitHandle" }, "\"\r\n",
+                      "$windowsVersion = \"", { "Ref": "OsVersion" }, "\"\r\n"
+                    ]
+                  ]
+                }
+              }
+            },
+            "services": {
+              "windows": {
+                "cfn-hup": {
+                  "enabled": "true",
+                  "ensureRunning": "true",
+                  "files": [
+                    "c:\\cfn\\cfn-hup.conf",
+                    "c:\\cfn\\hooks.d\\cfn-auto-reloader.conf"
+                  ]
+                },
+                "audiosrv": {
+                  "enabled": "true",
+                  "ensureRunning": "true"
+                }
+              }
+            },
+            "packages": {
+              "msi": {
+                "awscli": "https://s3.amazonaws.com/aws-cli/AWSCLI64.msi",
+                "awstools": "http://sdk-for-net.amazonwebservices.com/latest/AWSToolsAndSDKForNet.msi"
+              }
+            }
+          },
+          "install": {
+            "commands": {
+              "install-dcv": {
+                "command": "powershell.exe -noprofile -executionpolicy bypass C:\\dcv-install\\install.ps1 > C:\\dcv-install\\install.log",
+                "waitAfterCompletion": "0",
+                "ignoreErrors": "true"
+              },
+              "install-UE4-Pixel-Streaming": {
+                "command": "powershell.exe -noprofile -executionpolicy bypass C:\\PixelStreamer\\Downloads\\UE4-Pixel-Streamer-Bootstrap.ps1 > C:\\PixelStreamer\\Downloads\\UE4-Pixel-Streamer-Bootstrap.log",
+                "waitAfterCompletion": "0",
+                "ignoreErrors": "true"
+              }
+            }
+          },
+          "restart": {
+            "commands": {
+              "restart": {
+                "command": "shutdown /r /t 10 /d p:4:1 /c \"CloudFormation Restart\"",
+                "waitAfterCompletion": "forever"
+              }
+            }
+          }
+        },
+        "AWS::CloudFormation::Designer": {
+          "id": "e5cac32e-b5c6-46ba-9430-1f9b7275b5b6"
+        }
+      }
+    },
+    "RootRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "ec2.amazonaws.com"
+                ]
+              },
+              "Action": [
+                "sts:AssumeRole"
+              ]
+            }
+          ]
+        },
+        "Path": "/"
+      },
+      "Metadata": {
+        "AWS::CloudFormation::Designer": {
+          "id": "6f9e3cf3-dc65-4bcc-a7aa-298486effe69"
+        }
+      }
+    },
+    "RolePolicies": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "DcvInstallAccess",
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "logs:*",
+                "s3:*"
+              ],
+              "Resource": "*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "s3:GetObject"
+              ],
+              "Resource": "arn:aws:s3:::nice-dcv-cfn/*"
+            }
+          ]
+        },
+        "Roles": [
+          {
+            "Ref": "RootRole"
+          }
+        ]
+      },
+      "Metadata": {
+        "AWS::CloudFormation::Designer": {
+          "id": "7160187f-0a7e-451f-bcb1-85783245c504"
+        }
+      }
+    },
+    "RootInstanceProfile": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+        "Path": "/",
+        "Roles": [
+          {
+            "Ref": "RootRole"
+          }
+        ]
+      },
+      "Metadata": {
+        "AWS::CloudFormation::Designer": {
+          "id": "a36c5fb2-26ae-49c8-bffb-628118f2cd10"
+        }
+      }
+    },
+    "WindowsInstanceWaitCondition": {
+      "Type": "AWS::CloudFormation::WaitCondition",
+      "Condition" : "CreateWindows",     
+      "DependsOn": "WindowsInstance",
+      "Properties": {
+        "Handle": {
+          "Ref": "InstanceWaitHandle"
+        },
+        "Timeout": "5400"
+      }
+    },
+    "InstanceWaitHandle": {
+      "Type": "AWS::CloudFormation::WaitConditionHandle"
+    },
+    "DCVSecurityGroup" : {
+      "Type" : "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "GroupDescription" : "DCV Security Group",
+        "SecurityGroupIngress" : [
+          {"IpProtocol": "tcp", "FromPort": "22", "ToPort": "22", "CidrIp": "0.0.0.0/0", "Description": "SSH Port"},
+          {"IpProtocol": "tcp", "FromPort": "3389", "ToPort": "3389", "CidrIp": "0.0.0.0/0", "Description": "Remote Desktop Port"},
+          {"IpProtocol": "tcp", "FromPort": "8443", "ToPort": "8443", "CidrIp": "0.0.0.0/0", "Description": "Nice DCV Port"},
+          {"IpProtocol": "tcp", "FromPort": "80", "ToPort": "80", "CidrIp": "0.0.0.0/0", "Description": "UE4 Pixel Streamer - Webserver Port"},
+          {"IpProtocol": "tcp", "FromPort": "443", "ToPort": "443", "CidrIp": "0.0.0.0/0", "Description": "UE4 Pixel Streamer - Secure Webserver Port"},
+          {"IpProtocol": "tcp", "FromPort": "8888", "ToPort": "8888", "CidrIp": "0.0.0.0/0", "Description": "UE4 Pixel Streamer - Application Streaming Port"},
+          {"IpProtocol": "udp", "FromPort": "8888", "ToPort": "8888", "CidrIp": "0.0.0.0/0", "Description": "UE4 Pixel Streamer - Application Streaming Port"},
+          {"IpProtocol": "tcp", "FromPort": "19302", "ToPort": "19303", "CidrIp": "0.0.0.0/0", "Description": "UE4 Pixel Streamer - STUN/TURN Ports"},
+          {"IpProtocol": "udp", "FromPort": "19302", "ToPort": "19303", "CidrIp": "0.0.0.0/0", "Description": "UE4 Pixel Streamer - STUN/TURN Ports"}
+        ]
+      }
+    }
+  },
+  "Outputs": {
+    "WindowsInstanceId": {
+      "Value": { "Ref": "WindowsInstance" },
+      "Condition" : "CreateWindows",
+      "Description": "Instance ID for the newly created EC2 instance"
+    },
+    "WindowsPublicDNS": {
+      "Value": { "Fn::GetAtt": [ "WindowsInstance", "PublicDnsName" ] },      
+      "Condition" : "CreateWindows",     
+      "Description": "Web URL for Streaming Server, using DNS Name of the newly created EC2 instance"
+    },
+    "WindowsPublicIp": {
+      "Value": { "Fn::GetAtt": [ "WindowsInstance", "PublicIp" ] },
+      "Condition" : "CreateWindows",     
+      "Description": "Public IP address of the newly created EC2 instance"
+    },
+    "WindowsDcvURL": {
+      "Value": { "Fn::Join": [ "", [ "https://", { "Fn::GetAtt": [ "WindowsInstance", "PublicIp" ] }, ":8443" ] ] },
+      "Condition" : "CreateWindows",     
+      "Description": "Connection URL for web access to the newly created EC2 instance via Nice DCV"
+    }
+  },
+  "Metadata": {
+    "AWS::CloudFormation::Interface" : {
+      "ParameterGroups" : [
+        {
+          "Label" : { "default": "Software" },
+          "Parameters" : [ "OsVersion" ]
+        },
+        {
+          "Label" : { "default": "Credentials" },
+          "Parameters" : [ "UserPasswd" ]
+        },
+        {
+          "Label" : { "default": "EC2" },
+          "Parameters" : [ "InstanceType", "DiskSize", "KeyPairName" ]
+        }
+      ],
+      "ParameterLabels" : {
+        "InstanceType": {"default": "Instance Type:"},
+        "DiskSize": {"default": "Disk Size:"},
+        "KeyPairName": {"default": "Key pair name:"},
+        "UserPasswd": {"default": "Password:"},
+        "OsVersion": {"default": "Operating System:"}
+      }
+    }
+  }
+}
