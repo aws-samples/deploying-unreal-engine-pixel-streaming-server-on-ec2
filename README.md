@@ -19,9 +19,9 @@ Follow the steps outlined in the [Unreal Engine Pixel Streaming Deployment Guide
 
 ## Additional Resources
 
-* Unreal Engine Pixel Streaming Documentation - https://docs.unrealengine.com/en-US/Platforms/PixelStreaming/index.html
-* Amazon EC2 - https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/
-* AWS CloudFormation - https://aws.amazon.com/documentation/cloudformation/
+* Unreal Engine Pixel Streaming Documentation - <https://docs.unrealengine.com/en-US/Platforms/PixelStreaming/index.html>
+* Amazon EC2 - <https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/>
+* AWS CloudFormation - <https://aws.amazon.com/documentation/cloudformation/>
 
 ## Security
 
