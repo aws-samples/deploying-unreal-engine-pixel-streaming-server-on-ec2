@@ -25,7 +25,7 @@ Follow the steps outlined in the [Unreal Engine Pixel Streaming Deployment Guide
 
 ## Security
 
-There are several security-related aspects of the architecture in this sample. The solution is deployed into the default VPC. It creates a security group that allows fine-grained control of traffic in and out of the EC2 hosting the Pixel Streaming server. You can limit access to IP addresses that need to access the host (see the HostAccessCIDR parameter earlier in this guide ). This helps keep the host protected from malicious attacks and helps protect the data (UE4 Pixel Streaming build, in this case).
+There are several security-related aspects of the architecture in this sample. The solution is deployed into the default VPC. It creates a security group that allows fine-grained control of traffic in and out of the EC2 hosting the Pixel Streaming server. You can limit access to IP addresses that need to access the host (see the HostAccessCIDR parameter earlier in this guide). This helps keep the host protected from malicious attacks and helps protect the data (UE4 Pixel Streaming build, in this case).
 
 ## License
 

@@ -55,95 +55,95 @@
     },
     "PixelStreamerBootstrapLocation": {
       "Type": "String",
-      "Description": "Location of bootstrap Powershell script. Format of https://bucket-name.region.amazonaws.com/Path/UE4PixelStreamingProject.zip"
+      "Description": "Location of bootstrap Powershell script. Format of https://bucket-name.region.amazonaws.com/Path/UE4-Pixel-Streamer-Bootstrap.ps1"
     }
   },
   "Mappings": {
     "RegionMap": {
       "ap-northeast-1": {
-        "WindowsServer2012R2": "ami-0049f6c13e0018bcc",
-        "WindowsServer2016": "ami-09b4882469bcc17c5",
-        "WindowsServer2019": "ami-0f1d9d91c16265769"
+        "WindowsServer2012R2": "ami-0e377bbb4e0f9799a",
+        "WindowsServer2016": "ami-038c59e921e8b9c7d",
+        "WindowsServer2019": "ami-0afc3e2b95d00c51a"
       },
       "ap-northeast-2": {
-        "WindowsServer2012R2": "ami-04c2f27f6ff655845",
-        "WindowsServer2016": "ami-0af26a26ce589d298",
-        "WindowsServer2019": "ami-049e67b9661b9ee3e"
+        "WindowsServer2012R2": "ami-0e5436556286c6e86",
+        "WindowsServer2016": "ami-0e1c822d2f1dcf194",
+        "WindowsServer2019": "ami-0fee0e1c557356f3a"
       },
       "ap-northeast-3": {
-        "WindowsServer2012R2": "ami-0612f02c7dc63aae4",
-        "WindowsServer2016": "ami-052efaae156fe98ae",
-        "WindowsServer2019": "ami-0f9212217dd0b0c34"
+        "WindowsServer2012R2": "ami-031cfbd28804ce187",
+        "WindowsServer2016": "ami-082f7813888685626",
+        "WindowsServer2019": "ami-023d4a4cb69286b07"
       },
       "ap-south-1": {
-        "WindowsServer2012R2": "ami-0bb17546535bce67b",
-        "WindowsServer2016": "ami-0f550bdb648e94c38",
-        "WindowsServer2019": "ami-03dbf9550d4620230"
+        "WindowsServer2012R2": "ami-003365fd14b9a1d51",
+        "WindowsServer2016": "ami-07cd5239368f4714d",
+        "WindowsServer2019": "ami-0f438f5108bf5217e"
       },
       "ap-southeast-1": {
-        "WindowsServer2012R2": "ami-0e4c93774ba45aea5",
-        "WindowsServer2016": "ami-04ad4f8adb6cd9ae2",
-        "WindowsServer2019": "ami-003ad59a0b2b3c98f"
+        "WindowsServer2012R2": "ami-06ef8ad5f12e6b1d1",
+        "WindowsServer2016": "ami-0e0626e647f7ff431",
+        "WindowsServer2019": "ami-0df7f7be955d146cc"
       },
       "ap-southeast-2": {
-        "WindowsServer2012R2": "ami-0e2f2c90808c5084f",
-        "WindowsServer2016": "ami-0a1c4ca298cf1cfd0",
-        "WindowsServer2019": "ami-09a17b63e7283d6a2"
+        "WindowsServer2012R2": "ami-05e73d4d812d7703f",
+        "WindowsServer2016": "ami-0359bda8e2d189644",
+        "WindowsServer2019": "ami-0a5d1d750ffda976d"
       },
       "ca-central-1": {
-        "WindowsServer2012R2": "ami-07d6ae91b661c8f70",
-        "WindowsServer2016": "ami-05f72a4e2c483b7dd",
-        "WindowsServer2019": "ami-0df364e027762ec43"
+        "WindowsServer2012R2": "ami-07fb8c97fd99863d7",
+        "WindowsServer2016": "ami-0b5a9a9d2ee410e45",
+        "WindowsServer2019": "ami-00dd0737502449ce1"
       },
       "eu-central-1": {
-        "WindowsServer2012R2": "ami-01c3be3076b02d409",
-        "WindowsServer2016": "ami-041b3f8816c94b62c",
-        "WindowsServer2019": "ami-0075ac87f3bb991bc"
+        "WindowsServer2012R2": "ami-0ae15069f2ef59f7f",
+        "WindowsServer2016": "ami-0bbb16edf5b988af4",
+        "WindowsServer2019": "ami-051bdd1b48a1fe0e7"
       },
       "eu-north-1": {
-        "WindowsServer2012R2": "ami-0f819ff9b904b1de8",
-        "WindowsServer2016": "ami-0a6c0cf9712905e09",
-        "WindowsServer2019": "ami-092287cf5a11bfb9e"
+        "WindowsServer2012R2": "ami-0c3a8078037ecd91b",
+        "WindowsServer2016": "ami-09d86a92e251785c6",
+        "WindowsServer2019": "ami-024273c298b16e2c6"
       },
       "eu-west-1": {
-        "WindowsServer2012R2": "ami-09c2b6f3a7d742313",
-        "WindowsServer2016": "ami-0d30f8acc8b87dfd7",
-        "WindowsServer2019": "ami-0753ddff1a67fca78"
+        "WindowsServer2012R2": "ami-03087574c45a7cb2b",
+        "WindowsServer2016": "ami-05645d7a81a567ff7",
+        "WindowsServer2019": "ami-03acdf9028d28249e"
       },
       "eu-west-2": {
-        "WindowsServer2012R2": "ami-0e7919a7c2fd2b867",
-        "WindowsServer2016": "ami-02d88d373bf2a487a",
-        "WindowsServer2019": "ami-0c80f4021417f8488"
+        "WindowsServer2012R2": "ami-04ffac9b3974ff786",
+        "WindowsServer2016": "ami-0ee25530d3bd7ef9c",
+        "WindowsServer2019": "ami-0aac9d7fa83beb6d2"
       },
       "eu-west-3": {
-        "WindowsServer2012R2": "ami-070a60be1e287195d",
-        "WindowsServer2016": "ami-035886e9921128d1a",
-        "WindowsServer2019": "ami-0ace5ff23b1a4725d"
+        "WindowsServer2012R2": "ami-01955301a261f5cfc",
+        "WindowsServer2016": "ami-0e382f677f1079547",
+        "WindowsServer2019": "ami-0b250a0a9fb2dcfa7"
       },
       "sa-east-1": {
-        "WindowsServer2012R2": "ami-0b01cd27ee0c2874f",
-        "WindowsServer2016": "ami-06752a5f4a306b265",
-        "WindowsServer2019": "ami-066d7f29fb6c7b3bb"
+        "WindowsServer2012R2": "ami-05a7133f110fd4330",
+        "WindowsServer2016": "ami-0762edd7b85b88782",
+        "WindowsServer2019": "ami-02332b2f1df42b407"
       },
       "us-east-1": {
-        "WindowsServer2012R2": "ami-0bdaf7dfb4bc90153",
-        "WindowsServer2016": "ami-081afb283b98a8548",
-        "WindowsServer2019": "ami-0f38562b9d4de0dfe"
+        "WindowsServer2012R2": "ami-0a11ca1795e68bd94",
+        "WindowsServer2016": "ami-06f6f33114d2db0b1",
+        "WindowsServer2019": "ami-0eb7fbcc77e5e6ec6"
       },
       "us-east-2": {
-        "WindowsServer2012R2": "ami-0b50cc81076956cee",
-        "WindowsServer2016": "ami-0587770c46124f677",
-        "WindowsServer2019": "ami-066a1a3fa81bfbd00"
+        "WindowsServer2012R2": "ami-047b577fb036bfa95",
+        "WindowsServer2016": "ami-0935ea295cac2689d",
+        "WindowsServer2019": "ami-0ca69a9d06da3835d"
       },
       "us-west-1": {
-        "WindowsServer2012R2": "ami-06c9b9f6410bf8db9",
-        "WindowsServer2016": "ami-022b8726b80fd1330",
-        "WindowsServer2019": "ami-0d1b8b740ddc3b78d"
+        "WindowsServer2012R2": "ami-06fc26b9b267337e9",
+        "WindowsServer2016": "ami-03a3dfe44d6af440c",
+        "WindowsServer2019": "ami-069a83c17d7d386f1"
       },
       "us-west-2": {
-        "WindowsServer2012R2": "ami-015c3bb7a8dbda049",
-        "WindowsServer2016": "ami-0fb16d6843cf910d7",
-        "WindowsServer2019": "ami-09fa39d0afa9024db"
+        "WindowsServer2012R2": "ami-0f921f7888173ad5a",
+        "WindowsServer2016": "ami-07c0a21a5f1e474d1",
+        "WindowsServer2019": "ami-0afb7a78e89642197"
       }
     },
     "VersionMap": {
