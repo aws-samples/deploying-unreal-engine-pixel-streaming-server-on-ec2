@@ -17,6 +17,20 @@ Follow the steps outlined in the [Unreal Engine Pixel Streaming Deployment Guide
 
 ![Architecture Diagram](Documentation/Unreal-Engine-Pixel-Streaming-Architecture.png)
 
+## CloudFormation Template Parameters
+
+  | Parameters                      | Details                                                                                   | Default Value      |
+  | ---------------------------     |:------------------------------------------------------------------------------------------|:-------------------|
+  |OsVersion                        | Specify the version of Windows(Windows Server 2019) OS to use. Valid values are “WindowsServer2019”, “WindowsServer2016”, or “WindowsServer2012R2”. |  Windows Server 2019 |
+  |UserPasswd                       | Windows Administrator password used for logging into EC2 via Nice DCV or other administration. | Ch4ng3M3! |
+  |InstanceType                     | Amazon EC2 instance type for the pixel streaming server. Size should be smallest instance size that achieves required performance. | g4dn.xlarge |
+  |DiskSize                         | Volume size for the host, in GB.  | 30 |
+  |KeyPairName                      | Name of AWS EC2 Key Pair. This is not used when logging into machine, but needed to secure instance on VPC. | Requires input |
+  |PixelStreamerBootstrapLocation   | Specify the location of bootstrap file in S3 which is executed upon initial launch of EC2 instance.    | Requires input |
+  |PixelStreamerBuildLocation       | Specify the location of UE4 Pixel Streamer build zip file in S3. | Requires input |
+  |PixelStreamingAccessCIDR         | IP address range, as an access CIDR, of pixel stream viewers. | 0.0.0.0/0 |
+  |NiceDCVAccessCIDR                | IP address range, as an access CIDR, of admins and developers to access server via Nice DCV. | 0.0.0.0/0 |
+
 ## Additional Resources
 
 * Unreal Engine Pixel Streaming Documentation - <https://docs.unrealengine.com/en-US/Platforms/PixelStreaming/index.html>
