@@ -6,11 +6,13 @@ Script to automate setup of environment and download of exported project. Stream
 .DESCRIPTION
 
 .NOTES
+You will need to modify the $buildExecutable variable below to match the file name for your executable in your build.
 
 .LINK
 
 #>
 
+$buildExecutable = "ProjectBuild.exe"
 $basePath = "C:\PixelStreamer\Downloads"
 
 Write-Output "Starting UE4-Pixel-Streamer-Bootstrap.ps1 from:", $basePath
@@ -42,7 +44,7 @@ Write-Output "UE4 Project Downloaded and Extracted"
 # ToDo:Launch Pixel Streamer.
 # Run as SYSTEM otherwise it is not executed at startup
 $principal = New-ScheduledTaskPrincipal -UserID "NT AUTHORITY\SYSTEM" -LogonType ServiceAccount -RunLevel Highest
-$action = New-ScheduledTaskAction -Execute 'C:\PixelStreamer\WindowsNoEditor\ArchViz.exe' -Argument "-PixelStreamingIP=localhost -PixelStreamingPort=8888 -RenderOffScreen"
+$action = New-ScheduledTaskAction -Execute "C:\PixelStreamer\WindowsNoEditor\$buildExecutable" -Argument "-PixelStreamingIP=localhost -PixelStreamingPort=8888 -RenderOffScreen"
 $trigger = New-ScheduledTaskTrigger -AtStartup
 Register-ScheduledTask -Action $action -Principal $principal -Trigger $trigger -TaskName "UE4PixelStreamer-Project-Launch" -Description "UE4PixelStreamer-Project-Launch"
 
