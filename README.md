@@ -28,7 +28,7 @@ Follow the steps outlined in the [Unreal Engine Pixel Streaming Deployment Guide
   |KeyPairName                      | Name of AWS EC2 Key Pair. This is not used when logging into machine, but needed to secure instance on VPC. | Requires input |
   |PixelStreamerBootstrapLocation   | Specify the location of bootstrap file in S3 which is executed upon initial launch of EC2 instance.    | Requires input |
   |PixelStreamerBuildLocation       | Specify the location of UE4 Pixel Streamer build zip file in S3. | Requires input |
-  |PixelStreamingAccessCIDR         | IP address range, as an access CIDR, of pixel stream viewers. If your viewers are coming from a specific range limit the access. | 0.0.0.0/0 |
+  |PixelStreamingAccessCIDR         | IP address range, as an access CIDR, of pixel stream viewers. If your viewers are coming from a specific range, limit the access. | 0.0.0.0/0 |
   |NiceDCVAccessCIDR                | IP address range, as an access CIDR, of admins and developers to access server via Nice DCV. It is recommended that you limit this to only trusted IPs, such as specifying your own IP. | 0.0.0.0/0 |
 
 ## Additional Resources
