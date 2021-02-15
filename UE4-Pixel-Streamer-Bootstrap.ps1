@@ -41,8 +41,12 @@ Write-Output "Beginning UE4 Project Extraction"
 Expand-Archive -Force -LiteralPath "$basePath\PixelStreamerProject.zip" -DestinationPath C:\PixelStreamer
 Write-Output "UE4 Project Downloaded and Extracted"
 
-# ToDo:Launch Pixel Streamer.
-# Run as SYSTEM otherwise it is not executed at startup
+Write-Output "Install UE4 Prerequisites"
+Install-WindowsFeature NET-Framework-Core
+Start-Process -FilePath "C:\PixelStreamer\WindowsNoEditor\Engine\Extras\Redist\en-us\UE4PrereqSetup_x64.exe" -ArgumentList "/passive /quiet /norestart /log C:\PixelStreamer\WindowsNoEditor\Engine\Extras\Redist\en-us\UE4PreReqInstall.log" -Wait
+Write-Output "UE4 Prerequisites Installed"
+
+# Run Pixel Streamer as SYSTEM and on startup
 $principal = New-ScheduledTaskPrincipal -UserID "NT AUTHORITY\SYSTEM" -LogonType ServiceAccount -RunLevel Highest
 $action = New-ScheduledTaskAction -Execute "C:\PixelStreamer\WindowsNoEditor\$buildExecutable" -Argument "-PixelStreamingIP=localhost -PixelStreamingPort=8888 -RenderOffScreen"
 $trigger = New-ScheduledTaskTrigger -AtStartup

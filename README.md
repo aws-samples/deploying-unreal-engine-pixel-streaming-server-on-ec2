@@ -42,8 +42,7 @@ Follow the steps outlined in the [Unreal Engine Pixel Streaming Deployment Guide
 * This solution supports launching of one instance of a UE4 Pixel Streamer. Once you have a successful instance you can create an AMI and setup an Auto Scaling group following AWS best practices. You would need to track the launched instances and IP addresses that are available to suit your use case. Refer to the links below to get started:
   * Create a custom Windows AMI - <https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/Creating_EBSbacked_WinAMI.html>
   * Getting started with Amazon EC2 Auto Scaling - <https://docs.aws.amazon.com/autoscaling/ec2/userguide/GettingStartedTutorial.html>
-* Unreal Engine 4.26.1. requires an additional C++ runtime that must be installed via NICE DCV remotely or added as part of the bootstrap script. The pixel stream build will fail to execute without this runtime. An update to the repository will be made by AWS soon.
-* NVIDIA driver used is the default Tesla drivers. NVIDIA gaming drivers can be used by remoting into the instance and installing based on the steps in the [NVIDIA EC2 driver documentation](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/install-nvidia-driver.html#nvidia-gaming-driver). We are evaluating changing the default to the gaming driver based on customer feedback.
+* NVIDIA driver used is the default Tesla drivers. DirectX drivers are installed by the Unreal Engine prerequisite installer. NVIDIA gaming drivers can be used by remoting into the instance and installing based on the steps in the [NVIDIA EC2 driver documentation](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/install-nvidia-driver.html#nvidia-gaming-driver).
 
 ## Security
 
