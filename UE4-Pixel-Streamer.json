@@ -70,113 +70,21 @@
     "PixelStreamerBootstrapLocation": {
       "Type": "String",
       "Description": "Location of bootstrap Powershell script. Format of https://bucket-name.region.amazonaws.com/Path/UE4-Pixel-Streamer-Bootstrap.ps1"
+    },
+    "LatestWindows2019AmiId":{
+      "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+      "Default": "/aws/service/ami-windows-latest/Windows_Server-2019-English-Full-Base"
+    },
+    "LatestWindows2016AmiId":{
+      "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+      "Default": "/aws/service/ami-windows-latest/Windows_Server-2016-English-Full-Base"
+    },
+    "LatestWindows2012AmiId":{
+      "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+      "Default": "/aws/service/ami-windows-latest/Windows_Server-2012-R2_RTM-English-64Bit-Base"
     }
   },
   "Mappings": {
-    "RegionMap": {
-      "ap-northeast-1": {
-        "WindowsServer2012R2": "ami-0f9c482ae7cb6661f",
-        "WindowsServer2016": "ami-02ad43988184ad42e",
-        "WindowsServer2019": "ami-06d94a49607efea43",
-        "WindowsServer2008R2": "None"
-      },
-      "ap-northeast-2": {
-        "WindowsServer2012R2": "ami-0ee1f437da16fb62e",
-        "WindowsServer2016": "ami-015a58a88899ef30f",
-        "WindowsServer2019": "ami-0ff0049cd3c9a5fcb",
-        "WindowsServer2008R2": "None"
-      },
-      "ap-northeast-3": {
-        "WindowsServer2012R2": "ami-077d412cb3a29b7ca",
-        "WindowsServer2016": "ami-08bda27472ae7689f",
-        "WindowsServer2019": "ami-03a721b71e4cd1087",
-        "WindowsServer2008R2": "None"
-      },
-      "ap-south-1": {
-        "WindowsServer2012R2": "ami-0a684c755f03261bb",
-        "WindowsServer2016": "ami-0eb094e431a3874cc",
-        "WindowsServer2019": "ami-0231704d6e7036502",
-        "WindowsServer2008R2": "None"
-      },
-      "ap-southeast-1": {
-        "WindowsServer2012R2": "ami-0d65a2f7b6c8b4380",
-        "WindowsServer2016": "ami-0d4f8cbf66afb549a",
-        "WindowsServer2019": "ami-05116de3ec67f2bcb",
-        "WindowsServer2008R2": "None"
-      },
-      "ap-southeast-2": {
-        "WindowsServer2012R2": "ami-0b2ad3c55a037cc30",
-        "WindowsServer2016": "ami-05f1bac3bdba6d300",
-        "WindowsServer2019": "ami-09a868b800080436e",
-        "WindowsServer2008R2": "None"
-      },
-      "ca-central-1": {
-        "WindowsServer2012R2": "ami-07481ac91dabfe829",
-        "WindowsServer2016": "ami-0f762fc8b7afbfee1",
-        "WindowsServer2019": "ami-042ac4e08bdc42efe",
-        "WindowsServer2008R2": "None"
-      },
-      "eu-central-1": {
-        "WindowsServer2012R2": "ami-03a092d4ec340dbbf",
-        "WindowsServer2016": "ami-05a7d6bb8ff16d5a5",
-        "WindowsServer2019": "ami-09a53ec51d0027c28",
-        "WindowsServer2008R2": "None"
-      },
-      "eu-north-1": {
-        "WindowsServer2012R2": "ami-0292a14118d1e5891",
-        "WindowsServer2016": "ami-08a07c1b0740b247e",
-        "WindowsServer2019": "ami-065f3c904b5c4161b",
-        "WindowsServer2008R2": "None"
-      },
-      "eu-west-1": {
-        "WindowsServer2012R2": "ami-0a868a5415cfc04fb",
-        "WindowsServer2016": "ami-0ba02848e01cae475",
-        "WindowsServer2019": "ami-0a262e3ac12949132",
-        "WindowsServer2008R2": "None"
-      },
-      "eu-west-2": {
-        "WindowsServer2012R2": "ami-0991ef322d58d5787",
-        "WindowsServer2016": "ami-05c3f9b86d55ea80d",
-        "WindowsServer2019": "ami-019b399cca02b2cd3",
-        "WindowsServer2008R2": "None"
-      },
-      "eu-west-3": {
-        "WindowsServer2012R2": "ami-0f024d907c7d48271",
-        "WindowsServer2016": "ami-0f48c62f45dcaa4c1",
-        "WindowsServer2019": "ami-034d8263a2e8617e8",
-        "WindowsServer2008R2": "None"
-      },
-      "sa-east-1": {
-        "WindowsServer2012R2": "ami-09e478126cba857c9",
-        "WindowsServer2016": "ami-015905f77c669d9ea",
-        "WindowsServer2019": "ami-0d4025ed111159721",
-        "WindowsServer2008R2": "None"
-      },
-      "us-east-1": {
-        "WindowsServer2012R2": "ami-079fe16082fb837c5",
-        "WindowsServer2016": "ami-032e26fff3bb717f3",
-        "WindowsServer2019": "ami-0f5761c546ea1265a",
-        "WindowsServer2008R2": "None"
-      },
-      "us-east-2": {
-        "WindowsServer2012R2": "ami-0f5f950bd81ec96e0",
-        "WindowsServer2016": "ami-0db153619de617953",
-        "WindowsServer2019": "ami-00d1b5cc1e5341681",
-        "WindowsServer2008R2": "None"
-      },
-      "us-west-1": {
-        "WindowsServer2012R2": "ami-0f1bd3e0f73a95b37",
-        "WindowsServer2016": "ami-0a62f4194772fe5c0",
-        "WindowsServer2019": "ami-04e7f4a09f5c3d6ce",
-        "WindowsServer2008R2": "None"
-      },
-      "us-west-2": {
-        "WindowsServer2012R2": "ami-0d886083a2ac8d80c",
-        "WindowsServer2016": "ami-07f9aa0ff79eca6c4",
-        "WindowsServer2019": "ami-0831fe8c0427acf5b",
-        "WindowsServer2008R2": "None"
-      }
-    },
     "VersionMap": {
       "firefox": {
         "default": "Firefox_Setup_57.0.exe"
@@ -184,7 +92,16 @@
     }
   },
   "Conditions": {
-      "CreateWindows" : { "Fn::Or" : [ { "Fn::Equals" : [ {"Ref": "OsVersion"}, "WindowsServer2012R2" ] }, { "Fn::Equals" : [ {"Ref": "OsVersion"}, "WindowsServer2016" ] }, { "Fn::Equals" : [ {"Ref": "OsVersion"}, "WindowsServer2019" ] } ] }
+    "IsWindows2019": { "Fn::Equals": [{"Ref" : "OsVersion"}, "WindowsServer2019"] },
+    "IsWindows2016": { "Fn::Equals": [{"Ref" : "OsVersion"}, "WindowsServer2016"] },
+    "IsWindows2012": { "Fn::Equals": [{"Ref" : "OsVersion"}, "WindowsServer2012R2"] },
+    "CreateWindows" : { 
+      "Fn::Or" : [ 
+        { "Condition" : "IsWindows2019" }, 
+        { "Condition" : "IsWindows2016" },
+        { "Condition" : "IsWindows2012" }
+      ]
+    }
   },
   "Resources": {
     "WindowsInstance": {
@@ -198,44 +115,54 @@
           "Ref": "RootInstanceProfile"
         },
         "ImageId": {
-          "Fn::FindInMap": [
-                "RegionMap",
+          "Fn::If": [
+            "IsWindows2019", 
+            {"Ref": "LatestWindows2019AmiId"}, 
             {
-                "Ref": "AWS::Region"
-            },
-            {
-                "Ref": "OsVersion"
+              "Fn::If": [
+                "IsWindows2016", 
+                {"Ref": "LatestWindows2016AmiId"}, 
+                {
+                  "Fn::If": [
+                    "IsWindows2016", 
+                    {"Ref": "LatestWindows2012AmiId"}, 
+                    "None"
+                  ]
+                }
+              ]
             }
           ]
         },
         "SecurityGroupIds": [{
           "Ref": "DCVSecurityGroup"
         }],
-        "Tags" : [{ 
-          "Key" : "RemoteVisualization",
-          "Value" : "DCV-preview"
-        },
-        { 
-          "Key" : "Name",
-          "Value" : { "Ref": "AWS::StackName" }
-        },
-        { 
-          "Key" : "DCV",
-          "Value" : "DCV"
-        }],
+        "Tags" : [
+          { 
+            "Key" : "RemoteVisualization",
+            "Value" : "DCV-preview"
+          },
+          { 
+            "Key" : "Name",
+            "Value" : { "Ref": "AWS::StackName" }
+          },
+          { 
+            "Key" : "DCV",
+            "Value" : "DCV"
+          }
+        ],
         "KeyName": {
           "Ref": "KeyPairName"
         },
         "BlockDeviceMappings" : [
-            {
-                "DeviceName" : "/dev/sda1",
-                "Ebs" : {
-                    "VolumeSize" : {
-                        "Ref" : "DiskSize"
-                    },
-                    "VolumeType" : "gp2"
-                }
+          {
+            "DeviceName" : "/dev/sda1",
+            "Ebs" : {
+              "VolumeSize" : {
+                "Ref" : "DiskSize"
+              },
+              "VolumeType" : "gp2"
             }
+          }
         ],
         "UserData": {
           "Fn::Base64": {
