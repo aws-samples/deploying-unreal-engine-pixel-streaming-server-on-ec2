@@ -28,7 +28,7 @@
     "DiskSize" : {
         "Description": "Disk size in GB",
         "Type": "Number",
-        "Default": "30",
+        "Default": "50",
         "MinValue": "30"
     },
     "UserPasswd": {

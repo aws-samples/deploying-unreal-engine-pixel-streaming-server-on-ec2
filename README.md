@@ -24,7 +24,7 @@ Follow the steps outlined in the [Unreal Engine Pixel Streaming Deployment Guide
   |OsVersion                        | Specify the version of Windows(Windows Server 2019) OS to use. Valid values are “WindowsServer2019”, “WindowsServer2016”, or “WindowsServer2012R2”. |  Windows Server 2019 |
   |UserPasswd                       | Windows Administrator password used for logging into EC2 via Nice DCV or other administration. It is recommended that you change this default password. | Ch4ng3M3! |
   |InstanceType                     | Amazon EC2 instance type for the pixel streaming server. Size should be smallest instance size that achieves required performance. | g4dn.xlarge |
-  |DiskSize                         | Volume size for the host, in GB.  | 30 |
+  |DiskSize                         | Volume size for the host, in GB.  | 50 |
   |KeyPairName                      | Name of AWS EC2 Key Pair. This is not used when logging into machine, but needed to secure instance on VPC. | Requires input |
   |PixelStreamerBootstrapLocation   | Specify the location of bootstrap file in S3 which is executed upon initial launch of EC2 instance.    | Requires input |
   |PixelStreamerBuildLocation       | Specify the location of UE4 Pixel Streamer build zip file in S3. | Requires input |
