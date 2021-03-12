@@ -57,7 +57,7 @@
       "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-32"
     },
     "NiceDCVAccessCIDR": {
-      "Description": "CIDR Block from which the Nice DCV Remote Desktop will be accessible.",
+      "Description": "CIDR Block from which the NICE DCV Remote Desktop will be accessible.",
       "Default": "0.0.0.0/0",
       "Type": "String",
       "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
@@ -405,7 +405,7 @@
         "SecurityGroupIngress" : [
           {"IpProtocol": "tcp", "FromPort": "22", "ToPort": "22", "CidrIp": {"Ref": "NiceDCVAccessCIDR"}, "Description": "SSH Port"},
           {"IpProtocol": "tcp", "FromPort": "3389", "ToPort": "3389", "CidrIp": {"Ref": "NiceDCVAccessCIDR"}, "Description": "Remote Desktop Port"},
-          {"IpProtocol": "tcp", "FromPort": "8443", "ToPort": "8443", "CidrIp": {"Ref": "NiceDCVAccessCIDR"}, "Description": "Nice DCV Port"},
+          {"IpProtocol": "tcp", "FromPort": "8443", "ToPort": "8443", "CidrIp": {"Ref": "NiceDCVAccessCIDR"}, "Description": "NICE DCV Port"},
           {"IpProtocol": "tcp", "FromPort": "80", "ToPort": "80", "CidrIp": {"Ref": "PixelStreamingAccessCIDR"}, "Description": "UE4 Pixel Streamer - Webserver Port"},
           {"IpProtocol": "tcp", "FromPort": "443", "ToPort": "443", "CidrIp": {"Ref": "PixelStreamingAccessCIDR"}, "Description": "UE4 Pixel Streamer - Secure Webserver Port"},
           {"IpProtocol": "tcp", "FromPort": "8888", "ToPort": "8888", "CidrIp": {"Ref": "PixelStreamingAccessCIDR"}, "Description": "UE4 Pixel Streamer - Application Streaming Port"},
@@ -435,23 +435,27 @@
     "WindowsDcvURL": {
       "Value": { "Fn::Join": [ "", [ "https://", { "Fn::GetAtt": [ "WindowsInstance", "PublicIp" ] }, ":8443" ] ] },
       "Condition" : "CreateWindows",     
-      "Description": "Connection URL for web access to the newly created EC2 instance via Nice DCV"
+      "Description": "Connection URL for web access to the newly created EC2 instance via NICE DCV"
     }
   },
   "Metadata": {
     "AWS::CloudFormation::Interface" : {
       "ParameterGroups" : [
         {
-          "Label" : { "default": "Software" },
-          "Parameters" : [ "OsVersion" ]
+          "Label" : { "default": "EC2" },
+          "Parameters" : [ "InstanceType", "OsVersion", "DiskSize", "KeyPairName" ]
         },
         {
           "Label" : { "default": "Credentials" },
           "Parameters" : [ "UserPasswd" ]
         },
         {
-          "Label" : { "default": "EC2" },
-          "Parameters" : [ "InstanceType", "DiskSize", "KeyPairName" ]
+          "Label" : { "default": "Pixel Streamer Properties" },
+          "Parameters" : [ "PixelStreamerBootstrapLocation", "PixelStreamerBuildLocation", "PixelStreamingAccessCIDR", "NiceDCVAccessCIDR" ]
+        },
+        {
+          "Label" : { "default": "Windows AMIs" },
+          "Parameters" : [ "LatestWindows2019AmiId", "LatestWindows2016AmiId", "LatestWindows2012AmiId" ]
         }
       ],
       "ParameterLabels" : {
@@ -459,7 +463,14 @@
         "DiskSize": {"default": "Disk Size:"},
         "KeyPairName": {"default": "Key pair name:"},
         "UserPasswd": {"default": "Password:"},
-        "OsVersion": {"default": "Operating System:"}
+        "OsVersion": {"default": "Operating System:"},
+        "PixelStreamingAccessCIDR": {"default": "Pixel Streaming Access CIDR:"},
+        "NiceDCVAccessCIDR": {"default": "NICE DCV Access CIDR:"},
+        "PixelStreamerBuildLocation": {"default": "Pixel Streamer Build Location:"},
+        "PixelStreamerBootstrapLocation": {"default": "Pixel Streamer Bootstrap Location:"},
+        "LatestWindows2019AmiId": {"default": "Windows 2019 AMI:"},
+        "LatestWindows2016AmiId": {"default": "Windows 2016 AMI:"},
+        "LatestWindows2012AmiId": {"default": "Windows 2012 AMI:"}
       }
     }
   }

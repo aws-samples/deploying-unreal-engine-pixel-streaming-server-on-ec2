@@ -21,15 +21,16 @@ Follow the steps outlined in the [Unreal Engine Pixel Streaming Deployment Guide
 
   | Parameters                      | Details                                                                                   | Default Value      |
   | ---------------------------     |:------------------------------------------------------------------------------------------|:-------------------|
-  |OsVersion                        | Specify the version of Windows(Windows Server 2019) OS to use. Valid values are “WindowsServer2019”, “WindowsServer2016”, or “WindowsServer2012R2”. |  Windows Server 2019 |
-  |UserPasswd                       | Windows Administrator password used for logging into EC2 via Nice DCV or other administration. It is recommended that you change this default password. | Ch4ng3M3! |
   |InstanceType                     | Amazon EC2 instance type for the pixel streaming server. Size should be smallest instance size that achieves required performance. | g4dn.xlarge |
+  |OsVersion                        | Specify the version of Windows(Windows Server 2019) OS to use. Valid values are “WindowsServer2019”, “WindowsServer2016”, or “WindowsServer2012R2”. |  Windows Server 2019 |
   |DiskSize                         | Volume size for the host, in GB.  | 50 |
   |KeyPairName                      | Name of AWS EC2 Key Pair. This is not used when logging into machine, but needed to secure instance on VPC. | Requires input |
+  |UserPasswd                       | Windows Administrator password used for logging into EC2 via NICE DCV or other administration. It is recommended that you change this default password. | Ch4ng3M3! |
   |PixelStreamerBootstrapLocation   | Specify the location of bootstrap file in S3 which is executed upon initial launch of EC2 instance.    | Requires input |
   |PixelStreamerBuildLocation       | Specify the location of UE4 Pixel Streamer build zip file in S3. | Requires input |
   |PixelStreamingAccessCIDR         | IP address range, as an access CIDR, of pixel stream viewers. If your viewers are coming from a specific range, limit the access. | 0.0.0.0/0 |
-  |NiceDCVAccessCIDR                | IP address range, as an access CIDR, of admins and developers to access server via Nice DCV. It is recommended that you limit this to only trusted IPs, such as specifying your own IP. | 0.0.0.0/0 |
+  |NiceDCVAccessCIDR                | IP address range, as an access CIDR, of admins and developers to access server via NICE DCV. It is recommended that you limit this to only trusted IPs, such as specifying your own IP. | 0.0.0.0/0 |
+  |Windows AMIs                     | Default values ensure that the latest Windows AMI published by AWS is used. You can also define a different AMI to use with a different path. | AWS Defined AMI Paths |
 
 ## Additional Resources
 
