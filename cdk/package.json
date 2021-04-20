@@ -27,6 +27,8 @@
     "@aws-cdk/aws-iam": "^1.99.0",
     "@aws-cdk/aws-imagebuilder": "^1.99.0",
     "@aws-cdk/core": "1.99.0",
+    "@types/js-yaml": "^4.0.0",
+    "js-yaml": "^3.14.1",
     "source-map-support": "^0.5.16"
   }
 }
