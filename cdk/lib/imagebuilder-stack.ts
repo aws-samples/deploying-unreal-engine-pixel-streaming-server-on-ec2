@@ -1,7 +1,9 @@
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as iam from '@aws-cdk/aws-iam';
 import * as cdk from '@aws-cdk/core';
-import * as imagebuilder from '@aws-cdk/aws-imagebuilder'
+import * as imagebuilder from '@aws-cdk/aws-imagebuilder';
+import * as YAML from 'js-yaml';
+import * as fs from 'fs';
 
 interface Props extends cdk.StackProps {
     vpc: ec2.Vpc,
@@ -31,21 +33,31 @@ export class ImageBuilderStack extends cdk.Stack {
         }));
 
         // image builder
-        const rcp = new imagebuilder.CfnImageRecipe(this, 'UEPSWindowsImageRecipe', {
-            name: 'WindowsImageRecipe',
-            version: '1.0.0',
-            components: [
-                { 'componentArn': 'arn:aws:imagebuilder:us-east-1:aws:component/amazon-cloudwatch-agent-windows/1.0.0' },
-                { "componentArn": 'arn:aws:imagebuilder:us-east-1:aws:component/powershell-windows/7.0.5' },
-                { "componentArn": 'arn:aws:imagebuilder:us-east-1:aws:component/dotnet-core-runtime-windows/3.1.0' }
-            ],
-            parentImage: 'arn:aws:imagebuilder:us-east-1:aws:image/windows-server-2019-english-core-base-x86/2021.3.10'
+
+        const dependencyInstallData = YAML.load(fs.readFileSync('resources/AMIDependencyInstall.yaml', 'utf8'));
+        const installComponent = new imagebuilder.CfnComponent(this, "UEPSInstallComp", {
+            name: "AMIDependencyInstall",
+            platform: "Windows",
+            version: "0.1.1",
+            data: YAML.dump(dependencyInstallData)
         })
 
         const instanceprofile = new iam.CfnInstanceProfile(this, "UEPSWindowsImageInstanceProfile", {
             instanceProfileName: 'UEPSWindowsImageInstanceProfile',
             roles: [role.roleName]
         })
+
+        const rcp = new imagebuilder.CfnImageRecipe(this, 'UEPSWindowsImageRecipe', {
+            name: 'UEPSWindowsImageRecipe',
+            version: '1.0.1',
+            components: [
+                { "componentArn": 'arn:aws:imagebuilder:us-east-1:aws:component/amazon-cloudwatch-agent-windows/1.0.0' },
+                { "componentArn": 'arn:aws:imagebuilder:us-east-1:aws:component/chocolatey/1.0.0' },
+                { "componentArn": installComponent.attrArn }
+            ],
+            parentImage: 'arn:aws:imagebuilder:us-east-1:aws:image/windows-server-2019-english-core-base-x86/x.x.x'
+        })
+
 
         const infraconfig = new imagebuilder.CfnInfrastructureConfiguration(this, "UEPSWindowsImageInfrastructureConfig", {
             name: "UEPSWindowsImageInfrastructureConfig",
