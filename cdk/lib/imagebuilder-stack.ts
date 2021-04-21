@@ -38,7 +38,7 @@ export class ImageBuilderStack extends cdk.Stack {
         const installComponent = new imagebuilder.CfnComponent(this, "UEPSInstallComp", {
             name: "AMIDependencyInstall",
             platform: "Windows",
-            version: "0.1.1",
+            version: "0.1.2",
             data: YAML.dump(dependencyInstallData)
         })
 
@@ -49,13 +49,15 @@ export class ImageBuilderStack extends cdk.Stack {
 
         const rcp = new imagebuilder.CfnImageRecipe(this, 'UEPSWindowsImageRecipe', {
             name: 'UEPSWindowsImageRecipe',
-            version: '1.0.1',
+            version: '1.0.2',
             components: [
                 { "componentArn": 'arn:aws:imagebuilder:us-east-1:aws:component/amazon-cloudwatch-agent-windows/1.0.0' },
                 { "componentArn": 'arn:aws:imagebuilder:us-east-1:aws:component/chocolatey/1.0.0' },
                 { "componentArn": installComponent.attrArn }
             ],
-            parentImage: 'arn:aws:imagebuilder:us-east-1:aws:image/windows-server-2019-english-core-base-x86/x.x.x'
+            // Core image should be used for deploying, full is helpful for development debugging
+            // parentImage: 'arn:aws:imagebuilder:us-east-1:aws:image/windows-server-2019-english-core-base-x86/x.x.x'
+            parentImage: 'arn:aws:imagebuilder:us-east-1:aws:image/windows-server-2019-english-full-base-x86/x.x.x'
         })
 
 
