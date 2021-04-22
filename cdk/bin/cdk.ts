@@ -9,3 +9,4 @@ const network = new NetworkStack(app, 'UEPSStack');
 new ImageBuilderStack(app, 'UEPSBuilderStack', {
   vpc: network.vpc
 })
+app.synth();
