@@ -5,7 +5,7 @@ import { NetworkStack } from '../lib/network-stack';
 import { ImageBuilderStack } from '../lib/imagebuilder-stack';
 
 const app = new cdk.App();
-const network = new NetworkStack(app, 'UEPSStack');
+const network = new NetworkStack(app, 'UEPSNetworkStack');
 new ImageBuilderStack(app, 'UEPSBuilderStack', {
   vpc: network.vpc
 })
