@@ -13,7 +13,8 @@ This Quick Start deployment sets up an EC2 environment on AWS that includes the 
 
 ## Deployment Guide
 
-Follow the steps outlined in the [Unreal Engine Pixel Streaming Deployment Guide](Documentation/Unreal-Engine-Pixel-Streaming-Deployment-Guide.pdf). Once deployed the CloudFormation stack will deploy the below architecture:
+Follow the steps outlined in the [Unreal Engine Pixel Streaming Deployment Guide](Documentation/Unreal-Engine-Pixel-Streaming-Deployment-Guide.pdf). 
+Be sure to use a g4dn and install the nvidia drivers. The unreal engine will take a while to download (sometimes many hours). Once deployed the CloudFormation stack will deploy the below architecture:
 
 ![Architecture Diagram](Documentation/Unreal-Engine-Pixel-Streaming-Architecture.png)
 
