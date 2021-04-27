@@ -49,13 +49,13 @@ export class ImageBuilderStack extends cdk.Stack {
 
         const rcp = new imagebuilder.CfnImageRecipe(this, 'UEPSWindowsImageRecipe', {
             name: 'UEPSWindowsImageRecipe',
-            version: '1.0.2',
+            version: '1.0.3',
             components: [
                 { "componentArn": 'arn:aws:imagebuilder:us-east-1:aws:component/amazon-cloudwatch-agent-windows/1.0.0' },
                 { "componentArn": 'arn:aws:imagebuilder:us-east-1:aws:component/chocolatey/1.0.0' },
                 { "componentArn": installComponent.attrArn }
             ],
-            // Core image should be used for deploying, full is helpful for development debugging
+            // Core image should be used for deploying, base is helpful for development debugging
             // parentImage: 'arn:aws:imagebuilder:us-east-1:aws:image/windows-server-2019-english-core-base-x86/x.x.x'
             parentImage: 'arn:aws:imagebuilder:us-east-1:aws:image/windows-server-2019-english-full-base-x86/x.x.x'
         })
@@ -63,7 +63,7 @@ export class ImageBuilderStack extends cdk.Stack {
 
         const infraconfig = new imagebuilder.CfnInfrastructureConfiguration(this, "UEPSWindowsImageInfrastructureConfig", {
             name: "UEPSWindowsImageInfrastructureConfig",
-            instanceTypes: ["t3.xlarge"],
+            instanceTypes: ["m5.xlarge"],
             instanceProfileName: "UEPSWindowsImageInstanceProfile",
             subnetId: subnet.subnetId,
             securityGroupIds: [sg.securityGroupId]

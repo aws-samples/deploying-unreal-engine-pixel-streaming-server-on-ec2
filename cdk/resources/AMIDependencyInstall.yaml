@@ -4,22 +4,22 @@ schemaVersion: 1.0
 phases:
   - name: build
     steps:
-      - name: HelloWorldStep
+      - name: NVDIA
         action: ExecutePowerShell
         inputs:
           commands:
-            - Write-Host 'Hello World from the test phase.'
+            - Write-Host 'Installing nvidia drivers'
+            - choco install -y nvidia-display-driver
+      - name: NiceDCV
+        action: ExecutePowerShell
+        inputs:
+          commands:
+            - Write-Host 'installing nice-dcv-server'
+            - choco install -y nice-dcv-server
   - name: validate
     steps:
-      - name: HelloWorldStep
+      - name: ValidateInstalls
         action: ExecutePowerShell
         inputs:
           commands:
             - choco --version
-  - name: test
-    steps:
-      - name: HelloWorldStep
-        action: ExecutePowerShell
-        inputs:
-          commands:
-            - choco install -y nice-dcv-server
