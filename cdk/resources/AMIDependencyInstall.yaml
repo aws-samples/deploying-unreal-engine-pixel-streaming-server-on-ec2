@@ -1,5 +1,5 @@
-name: Hello World
-description: This is hello world testing document for Windows.
+name: AMI Dependencies
+description: This is dependency installation document for Windows.
 schemaVersion: 1.0
 phases:
   - name: build
