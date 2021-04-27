@@ -38,7 +38,7 @@ export class ImageBuilderStack extends cdk.Stack {
         const installComponent = new imagebuilder.CfnComponent(this, "UEPSInstallComp", {
             name: "AMIDependencyInstall",
             platform: "Windows",
-            version: "0.1.2",
+            version: "0.1.3",
             data: YAML.dump(dependencyInstallData)
         })
 
@@ -76,7 +76,7 @@ export class ImageBuilderStack extends cdk.Stack {
             infrastructureConfigurationArn: infraconfig.attrArn
         })
         pipeline.addDependsOn(rcp);
-        pipeline.addDependsOn(infraconfig)
+        pipeline.addDependsOn(infraconfig);
 
     }
 }
