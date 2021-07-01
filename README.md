@@ -2,6 +2,13 @@
 
 This sample is for those who use Unreal Engine 4 to build content and wish to deploy this content to an audience via UE4 pixel streams. Content examples include but are not limited to: interactive entertainment, architectural visualization, high fidelity car configurators, or anyone who needs to let users access high quality interactive content via thin clients such as web browsers.
 
+This sample deployment should take about 1 hour to complete, assuming you have an application with Pixel Streaming enabled. The 1-hour deployment includes:
+1. Creating an AWS account with proper permissions
+1. Creating the S3 bucket and uploading required files to S3
+1. Configuring CloudFormation template to be launched
+
+If you do not have an application with Pixel Streaming, please go to [the getting started with Pixel Streaming guide](https://docs.unrealengine.com/4.26/en-US/SharingAndReleasing/PixelStreaming/PixelStreamingIntro/).
+
 ## Working with UE4 Pixel Streaming on AWS
 
 Using AWS and Unreal Engine 4’s Pixel Streaming solution, developers can create content with Unreal Engine and deploy on AWS so users can engage with the content from any modern Web browser. A build of the UE4 content is run on an Amazon Elastic Compute Cloud (Amazon EC2) G4 instance. G4 instances are GPU instances that are designed for graphics-intensive workloads and offer a powerful, low-cost, pay-as-you-go model which is ideal for on-demand interactive content.
