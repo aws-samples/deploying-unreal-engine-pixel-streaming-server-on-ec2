@@ -32,8 +32,7 @@
         "MinValue": "30"
     },
     "UserPasswd": {
-      "Description": "Password for the \"Administrator\" user on Windows instances. The default password is Ch4ng3M3! ",
-      "Default": "Ch4ng3M3!",
+      "Description": "Password for the \"Administrator\" user on Windows instances.",
       "MinLength": "8",
       "Type": "String",
       "AllowedPattern": "^((?=.*[a-z])(?=.*[A-Z])(?=.*[\\d])|(?=.*[a-z])(?=.*[A-Z])(?=.*[\\W_])|(?=.*[a-z])(?=.*[\\d])(?=.*[\\W_])|(?=.*[A-Z])(?=.*[\\d])(?=.*[\\W_])).+$",
