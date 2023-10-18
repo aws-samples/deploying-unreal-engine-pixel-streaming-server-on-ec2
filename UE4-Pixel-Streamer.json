@@ -43,7 +43,6 @@
     "OsVersion": {
       "Type": "String",
       "AllowedValues": [
-        "WindowsServer2012R2",
         "WindowsServer2016",
         "WindowsServer2019"
       ],
@@ -78,10 +77,6 @@
     "LatestWindows2016AmiId":{
       "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
       "Default": "/aws/service/ami-windows-latest/Windows_Server-2016-English-Full-Base"
-    },
-    "LatestWindows2012AmiId":{
-      "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
-      "Default": "/aws/service/ami-windows-latest/Windows_Server-2012-R2_RTM-English-64Bit-Base"
     }
   },
   "Mappings": {
@@ -94,12 +89,10 @@
   "Conditions": {
     "IsWindows2019": { "Fn::Equals": [{"Ref" : "OsVersion"}, "WindowsServer2019"] },
     "IsWindows2016": { "Fn::Equals": [{"Ref" : "OsVersion"}, "WindowsServer2016"] },
-    "IsWindows2012": { "Fn::Equals": [{"Ref" : "OsVersion"}, "WindowsServer2012R2"] },
     "CreateWindows" : { 
       "Fn::Or" : [ 
         { "Condition" : "IsWindows2019" }, 
-        { "Condition" : "IsWindows2016" },
-        { "Condition" : "IsWindows2012" }
+        { "Condition" : "IsWindows2016" }
       ]
     }
   },
@@ -121,14 +114,8 @@
             {
               "Fn::If": [
                 "IsWindows2016", 
-                {"Ref": "LatestWindows2016AmiId"}, 
-                {
-                  "Fn::If": [
-                    "IsWindows2016", 
-                    {"Ref": "LatestWindows2012AmiId"}, 
-                    "None"
-                  ]
-                }
+                {"Ref": "LatestWindows2016AmiId"},
+				{"Ref": "LatestWindows2016AmiId"}
               ]
             }
           ]
@@ -455,7 +442,7 @@
         },
         {
           "Label" : { "default": "Windows AMIs" },
-          "Parameters" : [ "LatestWindows2019AmiId", "LatestWindows2016AmiId", "LatestWindows2012AmiId" ]
+          "Parameters" : [ "LatestWindows2019AmiId", "LatestWindows2016AmiId" ]
         }
       ],
       "ParameterLabels" : {
@@ -469,8 +456,7 @@
         "PixelStreamerBuildLocation": {"default": "Pixel Streamer Build Location:"},
         "PixelStreamerBootstrapLocation": {"default": "Pixel Streamer Bootstrap Location:"},
         "LatestWindows2019AmiId": {"default": "Windows 2019 AMI:"},
-        "LatestWindows2016AmiId": {"default": "Windows 2016 AMI:"},
-        "LatestWindows2012AmiId": {"default": "Windows 2012 AMI:"}
+        "LatestWindows2016AmiId": {"default": "Windows 2016 AMI:"}
       }
     }
   }
